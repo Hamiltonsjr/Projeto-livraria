@@ -1,0 +1,1 @@
+insert into `db-user`.profile (id, profile) values (1, "Seller"), (2, "Administrator" );
