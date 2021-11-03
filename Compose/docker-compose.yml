@@ -1,0 +1,147 @@
+version: '3'
+services:
+  cliente:
+    image: hamiltonsjr/cliente
+    restart: unless-stopped
+    networks:
+      - minha-rede
+    depends_on:
+      - "db"
+    command: ["./wait-mysql.sh", "db:3306"]
+    ports:
+      - "8083:8083"
+  api-gateway:
+    image: hamiltonsjr/api-gateway
+    networks:
+      - minha-rede
+    ports:
+      - "9999:9999"
+    depends_on:
+      - "db"
+      - "db-usuario"
+      - "db-estoque"
+      - "db-venda"
+      - "cliente"
+      - "usuario"
+      - "estoque"
+      - "venda"
+  usuario:
+    image: hamiltonsjr/usuario
+    restart: always
+    networks:
+      - minha-rede
+    depends_on:
+      - "db-usuario"
+      - "cliente"
+    ports:
+        - "8084:8084"
+  livraria:
+    image: hamiltonsjr/livraria
+    restart: always
+    networks:
+      - minha-rede
+    depends_on:
+      - "db-livraria"
+      - "cliente"
+      - "usuario"
+    ports:
+      - "8082:8082"
+  estoque:
+    image: hamiltonsjr/estoque
+    restart: always
+    networks:
+      - minha-rede
+    depends_on:
+      - "db-estoque"
+      - "cliente"
+      - "usuario"
+      - "livraria"
+    ports:
+      - "8001:8001"
+  venda:
+    image: hamiltonsjr/venda
+    restart: unless-stopped
+    networks:
+      - minha-rede
+    depends_on:
+      - "db-venda"
+      - "cliente"
+      - "usuario"
+      - "livraria"
+      - "estoque"
+    ports:
+      - "8085:8085"
+    command: ["./wait-mysql.sh", "db-venda:3310"]
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db-client
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: hamilton
+      MYSQL_PASSWORD: 123456
+    networks:
+      - minha-rede
+    ports:
+      - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 30s
+      retries: 10
+  db-usuario:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db-user
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: usuario
+    networks:
+      - minha-rede
+    ports:
+      - "3307"
+  db-livraria:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db-bookstore
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: livraria
+      MYSQL_PASSWORD: livraria
+    networks:
+      - minha-rede
+    ports:
+      - "3308"
+  db-estoque:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db-stock
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: estoque
+      MYSQL_PASSWORD: estoque
+    networks:
+      - minha-rede
+    ports:
+      - "3309"
+  db-venda:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db-sell
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: venda
+      MYSQL_PASSWORD: venda
+    networks:
+      - minha-rede
+    ports:
+      - "3310"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 30s
+      retries: 10
+networks:
+  minha-rede:
+
+
+
