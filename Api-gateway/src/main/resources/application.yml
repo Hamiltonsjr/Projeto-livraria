@@ -1,0 +1,126 @@
+server:
+  port: 9999
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: cliente                           #Endpoint - Cliente
+          uri: http://cliente:8083
+          predicates:
+            - Path=/cliente/**
+        - id: cliente
+          uri: http://cliente:8083
+          predicates:
+            - Path=/cliente/getId/**
+        - id: cliente
+          uri: http://cliente:8083
+          predicates:
+            - Path=/cliente/update/**
+        - id: cliente
+          uri: http://cliente:8083
+          predicates:
+            - Path=/cliente/delete/**
+        - id: cliente
+          uri: http://cliente:8083
+          predicates:
+            - Path=/cliente/insert/**
+        - id: cliente
+          uri: http://cliente:8083
+          predicates:
+            - Path=/q/swagger-api-cliente/**
+        - id: usuario                           #Endpoint - Usuario
+          uri: http://usuario:8084
+          predicates:
+            - Path=/usuario/**
+        - id: usuario
+          uri: http://usuario:8084
+          predicates:
+            - Path=/usuario/getId/**
+        - id: usuario
+          uri: http://usuario:8084
+          predicates:
+            - Path=/usuario/update/**
+        - id: usuario
+          uri: http://usuario:8084
+          predicates:
+            - Path=/usuario/delete/**
+        - id: usuario
+          uri: http://usuario:8084
+          predicates:
+            - Path=/usuario/insert/**
+        - id: usuario
+          uri: http://usuario:8084
+          predicates:
+            - Path=/swagger/api/usuario.html/**
+        - id: livraria                           #Endpoint - Livraria
+          uri: http://livraria:8082
+          predicates:
+            - Path=/livraria/**
+        - id: livraria
+          uri: http://livraria:8082
+          predicates:
+            - Path=/livraria/getId/**
+        - id: livraria
+          uri: http://livraria:8082
+          predicates:
+            - Path=/livraria/update/**
+        - id: livraria
+          uri: http://livraria:8082
+          predicates:
+            - Path=/livraria/delete/**
+        - id: livraria
+          uri: http://livraria:8082
+          predicates:
+            - Path=/livraria/insert/**
+        - id : livraria
+          uri: http://livraria:8082
+          predicates:
+            - Path=/swagger/api/livraria.html/**
+        - id: estoque                           #Endpoint - Estoque
+          uri: http://estoque:8001
+          predicates:
+            - Path=/estoque/**
+        - id: estoque
+          uri: http://estoque:8001
+          predicates:
+            - Path=/estoque/swagger/**
+        - id: estoque
+          uri: http://estoque:8001
+          predicates:
+            - Path=/estoque/update/**
+        - id: estoque
+          uri: http://estoque:8001
+          predicates:
+            - Path=/estoque/delete/**
+        - id: estoque
+          uri: http://estoque:8001
+          predicates:
+            - Path=/estoque/insert/**
+        - id: estoque
+          uri: http://estoque:8001
+          predicates:
+            - Path=/estoque/ibsn/{ibsn}/qtd/{quantidade}/**
+        - id: venda                           #Endpoint - Venda
+          uri: http://venda:8085
+          predicates:
+            - Path=/venda/**
+        - id: venda
+          uri: http://venda:8085
+          predicates:
+            - Path=/venda/getId/**
+        - id: venda
+          uri: http://venda:8085
+          predicates:
+            - Path=/venda/update/**
+        - id: venda
+          uri: http://venda:8085
+          predicates:
+            - Path=/venda/delete/**
+        - id: venda
+          uri: http://venda:8085
+          predicates:
+            - Path=/venda/insert/**
+        - id: venda
+          uri: http://venda:8085
+          predicates:
+            - Path=/swagger-api-venda/**
